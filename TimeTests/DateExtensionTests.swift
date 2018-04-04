@@ -11,17 +11,18 @@ import XCTest
 
 class DateExtensionTests: XCTestCase {
     
-    var date: Date?
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    let date: Date? = {
         let dateStr = "2018-05-03 11:33:13"
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale.current
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        date = dateFormatter.date(from: dateStr)
-
+        return dateFormatter.date(from: dateStr)
+    }()
+    
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
     }
     
     override func tearDown() {
@@ -30,7 +31,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testToString1() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         let year = date!.toString(formatter: "yyyy-MM-dd")
         
@@ -38,7 +39,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testToString2() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         let time = date!.toString(formatter: "HH:mm:ss")
         
@@ -46,7 +47,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testToYear() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         let year = date!.year()
         
@@ -54,7 +55,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testToMonth() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         let month = date!.month()
         
@@ -62,7 +63,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testToDay() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         let day = date!.day()
         
@@ -70,7 +71,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testFirstAndLastDayOfThisWeek() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         guard let tmpDate = date!.firstAndLastDayOfThisWeek() else {
             XCTAssert(false, "获取本周第一天和最后一天的日期失败")
@@ -86,7 +87,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testFirstAndLastDayOfThisMonth() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         guard let tmpDate = date!.firstAndLastDayOfThisMonth() else {
             XCTAssert(false, "获取本周第一天和最后一天的日期失败")
@@ -102,7 +103,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testFirstAndLastDayOfThisQuarter() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         guard let tmpDate = date!.firstAndLastDayOfThisQuarter() else {
             XCTAssert(false, "获取本季度第一天和最后一天的日期失败")
@@ -117,7 +118,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testFirstAndLastDayOfThisYear() {
-        XCTAssertNotNil(date, "DateExtensionTests date初始化失败")
+        guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
         guard let tmpDate = date!.firstAndLastDayOfThisYear() else {
             XCTAssert(false, "获取本年第一天和最后一天的日期失败")
