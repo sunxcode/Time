@@ -51,6 +51,8 @@ struct TimeTable {
         }))
     }
     
+    // MARK: - 基础方法
+    
     /// 插入数据。当天已经插入过数据返回false
     ///
     /// - Parameter date: 打卡时间Date()
@@ -105,7 +107,21 @@ struct TimeTable {
         return nil
     }
     
-    /// 删除数据
+    /// 查看是否有date日期的数据
+    ///
+    /// - Parameter date: 要查询的日期，必须包含年月日
+    /// - Returns: 已经存在返回true，否则返回false
+    func exist(_ date: Date) -> Bool {
+        if let tmpDay = Int64(date.toString(formatter: dayFormatter)) {
+
+            for _ in try! sqlManager.database.prepare(timeTable.filter(day == tmpDay)) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    /// 删除指定日期的数据
     ///
     /// - Parameter date: 要删除的数据
     /// - Returns: 删除成功返回true,删除失败或者数据不存在返回false
@@ -128,18 +144,16 @@ struct TimeTable {
         return false
     }
     
-    /// 查看是否有date日期的数据
+    /// 删除所有数据
     ///
-    /// - Parameter date: 要查询的日期，必须包含年月日
-    /// - Returns: 已经存在返回true，否则返回false
-    func exist(_ date: Date) -> Bool {
-        if let tmpDay = Int64(date.toString(formatter: dayFormatter)) {
-
-            for _ in try! sqlManager.database.prepare(timeTable.filter(day == tmpDay)) {
-                return true
-            }
+    /// - Returns: 删除成功返回true,删除失败返回false
+    func deletaAll() -> Bool {
+        do {
+            try sqlManager.database.run(timeTable.delete())
+            return true
+        } catch {
+            return false
         }
-        return false
     }
     
 }
@@ -147,9 +161,45 @@ struct TimeTable {
 // MARK: - 高级方法
 extension TimeTable {
     
-//    func currentWeekAverageKnockoffTime() -> String? {
-//        
-//    }
+    /// 获取此年度平均下班时间
+    ///
+    /// - Parameter date: 此年内的任意时间
+    /// - Returns: 平均下班时间
+    func averageKnockOffTimeOfTheYear(date: Date) -> String? {
+        guard let yearDate = date.firstAndLastDayOfThisYear() else { return nil }
+        
+        return averageKnockOffTime(from: yearDate.first, to: yearDate.last)
+    }
+    
+    /// 获取此季度平均下班时间
+    ///
+    /// - Parameter date: 此季度内的任意时间
+    /// - Returns: 平均下班时间
+    func averageKnockOffTimeOfTheQuarter(date: Date) -> String? {
+        guard let quarterDate = date.firstAndLastDayOfThisQuarter() else { return nil }
+        
+        return averageKnockOffTime(from: quarterDate.first, to: quarterDate.last)
+    }
+    
+    /// 获取此月平均下班时间
+    ///
+    /// - Parameter date: 此月内的任意时间
+    /// - Returns: 平均下班时间
+    func averageKnockOffTimeOfTheMonth(date: Date) -> String? {
+        guard let monthDate = date.firstAndLastDayOfThisMonth() else { return nil }
+        
+        return averageKnockOffTime(from: monthDate.first, to: monthDate.last)
+    }
+    
+    /// 获取此周平均下班时间
+    ///
+    /// - Parameter date: 此周内的任意时间
+    /// - Returns: 平均下班时间
+    func averageKnockOffTimeOfTheWeek(date: Date) -> String? {
+        guard let weekDate = date.firstAndLastDayOfThisWeek() else { return nil }
+        
+        return averageKnockOffTime(from: weekDate.first, to: weekDate.last)
+    }
     
     /// 获取指定时间段的平均下班时间
     ///
