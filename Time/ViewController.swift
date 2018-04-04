@@ -25,14 +25,18 @@ class ViewController: UIViewController, ClockOffButtonDelegate {
         
         initClockOffButton()
         
-        weekAvg.text = timeTableDB.averageKnockOffTimeOfTheWeek(date: Date())
-        monthAvg.text = timeTableDB.averageKnockOffTimeOfTheMonth(date: Date())
-        quarterAvg.text = timeTableDB.averageKnockOffTimeOfTheQuarter(date: Date())
+        refreshAvgTime()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func refreshAvgTime() {
+        weekAvg.text = timeTableDB.averageKnockOffTimeOfTheWeek(date: Date())
+        monthAvg.text = timeTableDB.averageKnockOffTimeOfTheMonth(date: Date())
+        quarterAvg.text = timeTableDB.averageKnockOffTimeOfTheQuarter(date: Date())
     }
 
     // MARK: - 视图初始化
@@ -51,9 +55,7 @@ class ViewController: UIViewController, ClockOffButtonDelegate {
     func knockOff(time: Date) {
         
         if timeTableDB.insert(time) {
-            weekAvg.text = timeTableDB.averageKnockOffTimeOfTheWeek(date: Date())
-            monthAvg.text = timeTableDB.averageKnockOffTimeOfTheMonth(date: Date())
-            quarterAvg.text = timeTableDB.averageKnockOffTimeOfTheQuarter(date: Date())
+            refreshAvgTime()
         } else {
             var message: String? = nil
             if let oldTime = timeTableDB.search(time) {
@@ -64,14 +66,22 @@ class ViewController: UIViewController, ClockOffButtonDelegate {
             let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
             let sureAction = UIAlertAction(title: "确定", style: .default, handler: { (action) -> Void in
                 if self.timeTableDB.forcedInsert(time) {
-                    self.weekAvg.text = self.timeTableDB.averageKnockOffTimeOfTheWeek(date: Date())
-                    self.monthAvg.text = self.timeTableDB.averageKnockOffTimeOfTheMonth(date: Date())
-                    self.quarterAvg.text = self.timeTableDB.averageKnockOffTimeOfTheQuarter(date: Date())
+                    self.refreshAvgTime()
                 }
             })
+            let deleteAction = UIAlertAction(title: "删除今天打卡记录", style: .default, handler: { (action) -> Void in
+                if self.timeTableDB.delete(time) {
+                    self.refreshAvgTime()
+                } else {
+                    // TODO: 添加删除失败告警框
+                }
+                
+            })
+            
             
             alertController.addAction(cancelAction)
             alertController.addAction(sureAction)
+            alertController.addAction(deleteAction)
             present(alertController, animated: true, completion: nil)
         }
     }
