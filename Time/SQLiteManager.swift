@@ -259,6 +259,10 @@ extension TimeTable {
             }
         }
         
+        guard validCount > 0 else {
+            return nil
+        }
+        
         // 平均每天下班到00:00:00的时长
         let avgTimeInterval64  = timeInterval64 / validCount
         
