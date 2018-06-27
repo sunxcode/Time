@@ -18,6 +18,13 @@
 		FF0FB5F1206CD000000C2B61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF0FB5EF206CD000000C2B61 /* LaunchScreen.storyboard */; };
 		FF0FB5FC206CD000000C2B61 /* TimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0FB5FB206CD000000C2B61 /* TimeTests.swift */; };
 		FF0FB607206CD6F2000C2B61 /* ClockOffButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0FB606206CD6F2000C2B61 /* ClockOffButton.swift */; };
+		FF30861F20E366AE004C04DC /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF30861D20E366AE004C04DC /* CalendarViewController.swift */; };
+		FF30862020E366AE004C04DC /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF30861E20E366AE004C04DC /* CalendarViewController.xib */; };
+		FF30862420E37D68004C04DC /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF30862220E37D68004C04DC /* DatePickerView.swift */; };
+		FF30862520E37D68004C04DC /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF30862320E37D68004C04DC /* DatePickerView.xib */; };
+		FF30862720E37D8E004C04DC /* UIKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF30862620E37D8E004C04DC /* UIKit+Extension.swift */; };
+		FF30862920E37DB2004C04DC /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF30862820E37DB1004C04DC /* UIColor+Extension.swift */; };
+		FF30862B20E38CE6004C04DC /* CustomFSCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF30862A20E38CE6004C04DC /* CustomFSCalendar.swift */; };
 		FFEACB7B20732CF30057C620 /* DateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEACB7A20732CF30057C620 /* DateExtensionTests.swift */; };
 		FFEACB7D207330C00057C620 /* SQliteManagertests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEACB7C207330C00057C620 /* SQliteManagertests.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +59,13 @@
 		FF0FB5FB206CD000000C2B61 /* TimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTests.swift; sourceTree = "<group>"; };
 		FF0FB5FD206CD000000C2B61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF0FB606206CD6F2000C2B61 /* ClockOffButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClockOffButton.swift; sourceTree = "<group>"; };
+		FF30861D20E366AE004C04DC /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		FF30861E20E366AE004C04DC /* CalendarViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
+		FF30862220E37D68004C04DC /* DatePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		FF30862320E37D68004C04DC /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
+		FF30862620E37D8E004C04DC /* UIKit+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+Extension.swift"; sourceTree = "<group>"; };
+		FF30862820E37DB1004C04DC /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		FF30862A20E38CE6004C04DC /* CustomFSCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFSCalendar.swift; sourceTree = "<group>"; };
 		FFEACB7A20732CF30057C620 /* DateExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionTests.swift; sourceTree = "<group>"; };
 		FFEACB7C207330C00057C620 /* SQliteManagertests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQliteManagertests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,6 +113,8 @@
 		FF03FBE42071DA7500A341DF /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				FF30862820E37DB1004C04DC /* UIColor+Extension.swift */,
+				FF30862620E37D8E004C04DC /* UIKit+Extension.swift */,
 				FF03FBE72072060700A341DF /* Date+Extension.swift */,
 			);
 			path = Extension;
@@ -127,6 +143,8 @@
 		FF0FB5E5206CD000000C2B61 /* Time */ = {
 			isa = PBXGroup;
 			children = (
+				FF30862120E37D49004C04DC /* DatePickerView */,
+				FF30861820E33D58004C04DC /* Calendar */,
 				FF03FBE42071DA7500A341DF /* Extension */,
 				FF0FB5E6206CD000000C2B61 /* AppDelegate.swift */,
 				FF0FB606206CD6F2000C2B61 /* ClockOffButton.swift */,
@@ -151,6 +169,25 @@
 			path = TimeTests;
 			sourceTree = "<group>";
 		};
+		FF30861820E33D58004C04DC /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				FF30861D20E366AE004C04DC /* CalendarViewController.swift */,
+				FF30861E20E366AE004C04DC /* CalendarViewController.xib */,
+				FF30862A20E38CE6004C04DC /* CustomFSCalendar.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		FF30862120E37D49004C04DC /* DatePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				FF30862220E37D68004C04DC /* DatePickerView.swift */,
+				FF30862320E37D68004C04DC /* DatePickerView.xib */,
+			);
+			path = DatePickerView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -163,7 +200,6 @@
 				FF0FB5E0206CCFFF000C2B61 /* Frameworks */,
 				FF0FB5E1206CCFFF000C2B61 /* Resources */,
 				E997D1C449CE53FD08DCCBA1 /* [CP] Embed Pods Frameworks */,
-				83C9E8D04CE7E48ECA8CE4E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -182,8 +218,6 @@
 				FF0FB5F3206CD000000C2B61 /* Sources */,
 				FF0FB5F4206CD000000C2B61 /* Frameworks */,
 				FF0FB5F5206CD000000C2B61 /* Resources */,
-				1DABDDF320BA55723C041932 /* [CP] Embed Pods Frameworks */,
-				08632B72DF03968FDDD73217 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -240,8 +274,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF30862020E366AE004C04DC /* CalendarViewController.xib in Resources */,
 				FF0FB5F1206CD000000C2B61 /* LaunchScreen.storyboard in Resources */,
 				FF0FB5EE206CD000000C2B61 /* Assets.xcassets in Resources */,
+				FF30862520E37D68004C04DC /* DatePickerView.xib in Resources */,
 				FF0FB5EC206CD000000C2B61 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,51 +310,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		08632B72DF03968FDDD73217 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TimeTests/Pods-TimeTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1DABDDF320BA55723C041932 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TimeTests/Pods-TimeTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		83C9E8D04CE7E48ECA8CE4E4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Time/Pods-Time-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A272D0CDA9C14DC88622E6AF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -344,11 +335,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Time/Pods-Time-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
@@ -364,10 +357,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF30861F20E366AE004C04DC /* CalendarViewController.swift in Sources */,
 				FF03FBE82072060700A341DF /* Date+Extension.swift in Sources */,
 				FF0FB607206CD6F2000C2B61 /* ClockOffButton.swift in Sources */,
+				FF30862920E37DB2004C04DC /* UIColor+Extension.swift in Sources */,
 				FF03FBEA20720E6100A341DF /* SQLiteManager.swift in Sources */,
+				FF30862B20E38CE6004C04DC /* CustomFSCalendar.swift in Sources */,
+				FF30862420E37D68004C04DC /* DatePickerView.swift in Sources */,
 				FF0FB5E9206CD000000C2B61 /* ViewController.swift in Sources */,
+				FF30862720E37D8E004C04DC /* UIKit+Extension.swift in Sources */,
 				FF0FB5E7206CD000000C2B61 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

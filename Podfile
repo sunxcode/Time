@@ -8,6 +8,7 @@ target 'Time' do
   # Pods for Time
   pod 'SnapKit', '~> 4.0.0'
   pod 'SQLite.swift', '~> 0.11.4'  
+  pod 'FSCalendar'
 
   target 'TimeTests' do
     inherit! :search_paths

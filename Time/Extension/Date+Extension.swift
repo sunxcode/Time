@@ -9,6 +9,22 @@
 import Foundation
 
 extension Date {
+    /// String -> Date
+    ///
+    /// - Parameters:
+    ///   - dateStr: date string
+    ///   - formatter: date formatter
+    /// - Returns: Date
+    static func date(_ dateStr: String, formatter: String = "yyyy-MM-dd HH:mm:ss") -> Date? {
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = formatter
+        
+        dateFormatter.locale = Locale.current
+        
+        return dateFormatter.date(from: dateStr)
+    }
     
     /// 把Date转换成formatter格式的字符串
     ///
@@ -21,37 +37,63 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    /// 获取年
-    ///
-    /// - Returns: 返回当地时间年
-    public func year() -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateFormat = "yyyy"
-        return formatter.string(from: self)
+}
+
+extension Date {
+    static func currentCalendar() -> Calendar {
+        var sharedCalendar = Calendar(identifier: .gregorian)
+        
+        sharedCalendar.locale = Locale.current
+        
+        return sharedCalendar
     }
     
     
-    /// 获取月
-    ///
-    /// - Returns: 返回当地时间月
-    public func month() -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateFormat = "MM"
-        return formatter.string(from: self)
+    /// Example: 2000/1/2 03:04:05 return 2000
+    var year: Int {
+        get {
+            return Date.currentCalendar().component(.year, from: self)
+        }
     }
     
-    
-    /// 获取日期
-    ///
-    /// - Returns: 返回当地时间日期
-    public func day() -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateFormat = "dd"
-        return formatter.string(from: self)
+    /// Example: 2000/1/2 03:04:05 return 1
+    var month: Int {
+        get {
+            return Date.currentCalendar().component(.month, from: self)
+        }
     }
+    
+    /// Example: 2000/1/2 03:04:05 return 2
+    var day: Int {
+        get {
+            return Date.currentCalendar().component(.day, from: self)
+        }
+    }
+    
+    /// Example: 2000/1/2 03:04:05 return 3
+    var hour: Int {
+        get {
+            return Date.currentCalendar().component(.hour, from: self)
+        }
+    }
+    
+    /// Example: 2000/1/2 03:04:05 return 4
+    var minute: Int {
+        get {
+            return Date.currentCalendar().component(.minute, from: self)
+        }
+    }
+    
+    /// Example: 2000/1/2 03:04:05 return 5
+    var second: Int {
+        get {
+            return Date.currentCalendar().component(.second, from: self)
+        }
+    }
+}
+
+
+extension Date {
     
     /// 获取本周的第一天日期和最后一天日期.周日第一天，周六最后一天
     ///
@@ -113,13 +155,14 @@ extension Date {
     ///
     /// - Returns: 返回元组，包含第一天和最后一天
     public func firstAndLastDayOfThisQuarter() -> (first: Date, last: Date)? {
-        let year = self.year()
+        let year = String(self.year)
         var firstMonth: String
         let firstDay: String = "01"
         var lastMonth: String
         var lastDay: String
         
-        guard let monthInt = Int(self.month()) else { return nil }
+        let monthInt = self.month
+        
         switch monthInt {
         case 1, 2, 3:
             firstMonth = "01"
@@ -158,7 +201,7 @@ extension Date {
     ///
     /// - Returns: 返回元组，包含第一天和最后一天
     public func firstAndLastDayOfThisYear() -> (first: Date, last: Date)? {
-        let year = self.year()
+        let year = String(self.year)
         let firstDateStr = year + "-01-01"
         let lastDateStr = year + "-12-31"
         
@@ -170,5 +213,60 @@ extension Date {
         guard let lastDate = dateFormatter.date(from: lastDateStr) else { return nil }
         
         return (firstDate, lastDate)
+    }
+
+}
+
+
+extension Date {
+    
+    /// the same year
+    ///
+    /// - Parameter date: contrast time
+    /// - Returns: true: equal; false: not equal
+    func haveSameYear(_ date: Date) -> Bool {
+        return self.year == date.year
+    }
+    
+    func haveSameYearAndMonth(_ date: Date) -> Bool {
+        return self.haveSameYear(date) && self.month == date.month
+    }
+    
+    func haveSameYearMonthAndDay(_ date: Date) -> Bool {
+        let components1 = Date.currentCalendar().dateComponents([.year, .month, .day], from: self)
+        let components2 = Date.currentCalendar().dateComponents([.year, .month, .day], from: date)
+        return components1 == components2
+    }
+    
+    func haveSameYearMonthDayAndHour(_ date: Date) -> Bool {
+        let components1 = Date.currentCalendar().dateComponents([.year, .month, .day, .hour], from: self)
+        let components2 = Date.currentCalendar().dateComponents([.year, .month, .day, .hour], from: date)
+        return components1 == components2
+    }
+    
+    func haveSameYearMonthDayHourAndMinute(_ date: Date) -> Bool {
+        let components1 = Date.currentCalendar().dateComponents([.year, .month, .day, .hour, .minute], from: self)
+        let components2 = Date.currentCalendar().dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        return components1 == components2
+    }
+    
+    func haveSameYearMonthDayHourMinuteAndSecond(_ date: Date) -> Bool {
+        let components1 = Date.currentCalendar().dateComponents([.year, .month, .day, .hour, .minute, .second], from: self)
+        let components2 = Date.currentCalendar().dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        return components1 == components2
+    }
+}
+
+extension Date {
+    
+    /// the number of days in the month
+    ///
+    /// - Returns: number of day
+    func numberOfDaysInMonth() -> Int {
+        if let range = Date.currentCalendar().range(of: .day, in: .month, for: self) {
+            return range.count
+        }
+        
+        return 0
     }
 }

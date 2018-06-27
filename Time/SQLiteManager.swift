@@ -57,6 +57,7 @@ struct TimeTable {
     ///
     /// - Parameter date: 打卡时间Date()
     /// - Returns: 插入成功返回true，插入失败返回false
+    @discardableResult
     func insert(_ date: Date) -> Bool {
         if let tmpDay = Int64(date.toString(formatter: dayFormatter)) {
             do {
@@ -75,6 +76,7 @@ struct TimeTable {
     ///
     /// - Parameter date: 打卡时间Date()
     /// - Returns: 插入成功返回true，插入失败返回false
+    @discardableResult
     func forcedInsert(_ date: Date) -> Bool {
         if let tmpDay = Int64(date.toString(formatter: dayFormatter)) {
             do {
@@ -125,6 +127,7 @@ struct TimeTable {
     ///
     /// - Parameter date: 要删除的数据
     /// - Returns: 删除成功返回true,删除失败或者数据不存在返回false
+    @discardableResult
     func delete(_ date: Date) -> Bool {
         
         if let tmpDay = Int64(date.toString(formatter: dayFormatter)) {
@@ -147,6 +150,7 @@ struct TimeTable {
     /// 删除所有数据
     ///
     /// - Returns: 删除成功返回true,删除失败返回false
+    @discardableResult
     func deletaAll() -> Bool {
         do {
             try sqlManager.database.run(timeTable.delete())
