@@ -13,6 +13,12 @@ class CalendarViewController: UIViewController {
 
     @IBOutlet weak var calendar: CustomFSCalendar!
     
+    @IBOutlet weak var monthAvg: UILabel!
+    
+    @IBOutlet weak var quarterAvg: UILabel!
+    
+    @IBOutlet weak var yearAvg: UILabel!
+    
     /// 要求达到的平均加班时间
     let deadline = "20:00:00"
     
@@ -28,6 +34,8 @@ class CalendarViewController: UIViewController {
         super.viewDidLoad()
 
         configCalendar()
+        
+        showAverageKnockOffTime(Date())
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,32 +43,22 @@ class CalendarViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func configNavgationBar() {
-        guard let _ = navigationController else { return }
-        
-        let button = UIButton(type: .custom)
-        
-        button.setTitle("补/重新打卡", for: .normal)
-        
-        button.setTitleColor(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), for: .normal)
-        
-        button.sizeToFit()
-        
-        button.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
-    }
-    
     private func configCalendar() {
         calendar.dataSource = self
         calendar.delegate = self
-        calendar.longPressDelegate = self
+        calendar.twoTapsDelegate = self
         calendar.appearance.todayColor = UIColor.white
         calendar.appearance.titleTodayColor = UIColor.blue
-        calendar.swipeToChooseGesture.isEnabled = true
+        _ = calendar.twoTaps
     }
     
-    @objc func showDatePicker() {
+    private func showAverageKnockOffTime(_ date: Date) {
+        
+        monthAvg.text = timeTableDB.averageKnockOffTimeOfTheMonth(date: date) ?? "00:00:00"
+        
+        quarterAvg.text = timeTableDB.averageKnockOffTimeOfTheQuarter(date: date) ?? "00:00:00"
+        
+        yearAvg.text = timeTableDB.averageKnockOffTimeOfTheYear(date: date) ?? "00:00:00"
         
     }
     
@@ -84,6 +82,12 @@ extension CalendarViewController: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         return false
     }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        
+        showAverageKnockOffTime(calendar.currentPage)
+        
+    }
 }
 
 // MARK: - FSCalendarDelegateAppearance
@@ -100,7 +104,7 @@ extension CalendarViewController: FSCalendarDelegateAppearance {
 }
 
 // MARK: - FSCalendarLongPressDelegate
-extension CalendarViewController: FSCalendarLongPressDelegate {
+extension CalendarViewController: FSCalendarTwoTapsDelegate {
     func calendar(_ calendar: FSCalendar, date: Date, at monthPosition: FSCalendarMonthPosition){
         
         let alertController = UIAlertController(title: "是否更新下班时间", message: date.toString(formatter: "yyyy-MM-dd"), preferredStyle: .actionSheet)
@@ -108,11 +112,29 @@ extension CalendarViewController: FSCalendarLongPressDelegate {
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         
         let sureAction = UIAlertAction(title: "确认", style: .default, handler: { action in
-
-            let datePicker = DatePickerView.datePicker(style: .hourMinuteSecond, scrollToDate: date) { date in
-                guard let date = date else { return }
-
+            
+            var scrollToDate: Date
+            
+            if let oldDate = self.timeTableDB.search(date) {
+                scrollToDate = Date.date(date.toString(formatter: "yyyy-MM-dd") + " " + oldDate.toString(formatter: "HH:mm:ss"), formatter: "yyyy-MM-dd HH:mm:ss")!
+            } else {
+                scrollToDate = Date.date(date.toString(formatter: "yyyy-MM-dd") + " 20:00:00", formatter: "yyyy-MM-dd HH:mm:ss")!
             }
+
+            
+            let datePicker = DatePickerView.datePicker(style: .all, scrollToDate: scrollToDate) { date in
+                guard let date = date else { return }
+                
+                self.timeTableDB.forcedInsert(date)
+                
+                calendar.reloadData()
+                
+                self.showAverageKnockOffTime(date)
+            }
+            
+            datePicker.minLimitDate = Date.date(date.toString(formatter: "yyyy-MM-dd") + " 00:00:00", formatter: "yyyy-MM-dd HH:mm:ss")!
+            
+            datePicker.maxLimitDate = Date.date(date.toString(formatter: "yyyy-MM-dd") + " 23:59:59", formatter: "yyyy-MM-dd HH:mm:ss")!
 
             datePicker.show()
         })

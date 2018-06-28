@@ -9,6 +9,50 @@
 import UIKit
 import FSCalendar
 
+protocol FSCalendarTwoTapsDelegate: AnyObject {
+    func calendar(_ calendar: FSCalendar, date: Date, at monthPosition: FSCalendarMonthPosition)
+}
+
+@IBDesignable
+class CustomFSCalendar: FSCalendar {
+    
+    weak open var twoTapsDelegate: FSCalendarTwoTapsDelegate?
+    
+    lazy var twoTaps: UITapGestureRecognizer = {
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTwoTaps(_:)))
+        
+        tap.numberOfTapsRequired = 2
+        
+        collectionView.addGestureRecognizer(tap)
+        
+        return tap
+        
+    }()
+    
+    @objc private func handleTwoTaps(_ sender: UITapGestureRecognizer) {
+        
+        guard let indexPath = collectionView.indexPathForItem(at: sender.location(in: collectionView)) else { return }
+        
+        if let date = calculator.date(for: indexPath) {
+            
+            let monthPosition = calculator.monthPosition(for: indexPath)
+            
+            twoTapsDelegate?.calendar(self, date: date, at: monthPosition)
+            
+        }
+
+    }
+}
+
+extension FSCalendarTwoTapsDelegate {
+    func calendar(_ calendar: FSCalendar, date: Date, at monthPosition: FSCalendarMonthPosition) {
+        return
+    }
+}
+
+/*
+
 protocol FSCalendarLongPressDelegate: AnyObject {
     func calendar(_ calendar: FSCalendar, date: Date, at monthPosition: FSCalendarMonthPosition)
 }
@@ -22,7 +66,9 @@ class CustomFSCalendar: FSCalendar {
     
     private lazy var longPress: UILongPressGestureRecognizer = {
         let pressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
-        pressGesture.isEnabled = false
+        pressGesture.isEnabled = true
+        pressGesture.delaysTouchesBegan = false
+        pressGesture.delaysTouchesEnded = false
         pressGesture.numberOfTapsRequired = 0
         pressGesture.numberOfTouchesRequired = 1
         pressGesture.minimumPressDuration = 0.7
@@ -68,3 +114,5 @@ extension FSCalendarLongPressDelegate {
         return
     }
 }
+
+ */

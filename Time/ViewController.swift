@@ -26,22 +26,22 @@ class ViewController: UIViewController, ClockOffButtonDelegate {
         
         initClockOffButton()
         
-        if let date = Date.date("2018-06-26 20:37:38", formatter: "yyyy-MM-dd HH:mm:ss") {
-            _ = timeTableDB.insert(date)
-        }
-        
         refreshAvgTime()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        refreshAvgTime()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     func refreshAvgTime() {
-        weekAvg.text = timeTableDB.averageKnockOffTimeOfTheWeek(date: Date())
-        monthAvg.text = timeTableDB.averageKnockOffTimeOfTheMonth(date: Date())
-        quarterAvg.text = timeTableDB.averageKnockOffTimeOfTheQuarter(date: Date())
+        weekAvg.text = timeTableDB.averageKnockOffTimeOfTheWeek(date: Date()) ?? "00:00:00"
+        monthAvg.text = timeTableDB.averageKnockOffTimeOfTheMonth(date: Date()) ?? "00:00:00"
+        quarterAvg.text = timeTableDB.averageKnockOffTimeOfTheQuarter(date: Date()) ?? "00:00:00"
     }
 
     @objc private func showCalendar() {
@@ -72,7 +72,7 @@ class ViewController: UIViewController, ClockOffButtonDelegate {
     func initClockOffButton() {
         let clockOffBtn = ClockOffButton()
         clockOffBtn.delegate = self
-        clockOffBtn.setTitle("打卡", for: .normal)
+        clockOffBtn.setTitle("长按打卡", for: .normal)
         clockOffBtn.setTitleColor(UIColor.blue, for: .normal)
         buttonView.addSubview(clockOffBtn)
         clockOffBtn.snp.makeConstraints { (make) in
