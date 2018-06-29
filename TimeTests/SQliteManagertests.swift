@@ -249,4 +249,32 @@ class SQliteManagertests: XCTestCase {
         XCTAssertEqual(avgTime, "21:06:09", "averageKnockOffTimeOfTheYear test failed")
         
     }
+    
+    // MARK: - 性能测试
+
+    func testPerformanceSearch() {
+        
+        _ = (1...365).map { index in
+            let date = Date.init(timeIntervalSinceNow: TimeInterval(60 * 60 * 24 * index))
+            
+            timeTable.forcedInsert(date)
+            
+        }
+        
+        var errorCount: Int = 0
+        self.measure {
+            _ = (1...365).map { index in
+                let date = Date.init(timeIntervalSinceNow: TimeInterval(60 * 60 * 24 * index))
+                
+                if timeTable.search(date) == nil {
+                    errorCount += 1
+                }
+                
+            }
+        }
+        print("search error count: \(errorCount)")
+        
+        timeTable.deletaAll()
+    }
+    
 }

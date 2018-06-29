@@ -49,25 +49,25 @@ class DateExtensionTests: XCTestCase {
     func testToYear() {
         guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
-        let year = date!.year()
+        let year = date!.year
         
-        XCTAssertEqual(year, "2018", "date 转换成年份失败")
+        XCTAssertEqual(year, 2018, "date 转换成年份失败")
     }
     
     func testToMonth() {
         guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
-        let month = date!.month()
+        let month = date!.month
         
-        XCTAssertEqual(month, "05", "date 转换成月份失败")
+        XCTAssertEqual(month, 05, "date 转换成月份失败")
     }
     
     func testToDay() {
         guard let _ = date else { XCTAssert(false, "DateExtensionTests date初始化失败") ;return }
         
-        let day = date!.day()
+        let day = date!.day
         
-        XCTAssertEqual(day, "03", "date 转换成日失败")
+        XCTAssertEqual(day, 03, "date 转换成日失败")
     }
     
     func testFirstAndLastDayOfThisWeek() {
