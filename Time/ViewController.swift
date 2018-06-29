@@ -63,6 +63,8 @@ class ViewController: UIViewController, ClockOffButtonDelegate {
         
         button.setTitleColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1), for: .normal)
         
+        button.sizeToFit()
+        
         button.addTarget(self, action: #selector(showCalendar), for: .touchUpInside)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
